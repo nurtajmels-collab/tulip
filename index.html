@@ -3,105 +3,253 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Шымкент қызғалдағы туралы интерактивті 3D әңгіме.">
-  <title>Шымкент қызғалдағы — 3D хикая</title>
-  <link rel="stylesheet" href="style.css">
+  <meta name="description" content="Қызғалдақ туралы: тарихы, маңызы және Шымкентпен байланысы.">
+  <title>Қызғалдақ — дала сәні</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --green: #1e4620;
+      --green-dark: #123416;
+      --green-soft: #dce9d5;
+      --red: #e63946;
+      --red-dark: #bb2734;
+      --gold: #f4a261;
+      --yellow: #ffd166;
+      --paper: #f8f9fa;
+      --ink: #17241a;
+      --muted: #607064;
+      --line: rgba(30, 70, 32, .14);
+      --shadow: 0 22px 50px rgba(20, 42, 23, .13);
+      --radius: 18px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--paper);
+      font-family: 'Manrope', sans-serif;
+      line-height: 1.65;
+    }
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; }
+    .container { width: min(1160px, calc(100% - 48px)); margin: 0 auto; }
+
+    .hero {
+      min-height: 740px;
+      color: #fff;
+      background:
+        linear-gradient(105deg, rgba(15, 44, 19, .95) 0%, rgba(21, 64, 26, .78) 48%, rgba(21, 64, 26, .16) 100%),
+        url('https://images.unsplash.com/photo-1490750967868-88aa4486c946?auto=format&fit=crop&w=2200&q=90') center/cover;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      inset: auto 0 0;
+      height: 130px;
+      background: linear-gradient(transparent, var(--paper));
+      pointer-events: none;
+    }
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 92px;
+      position: relative;
+      z-index: 5;
+    }
+    .brand { display: flex; align-items: center; gap: 12px; font-weight: 800; letter-spacing: -.04em; }
+    .brand-mark { width: 38px; height: 38px; display: grid; place-items: center; border: 1px solid rgba(255,255,255,.45); border-radius: 50%; color: var(--yellow); font-size: 21px; }
+    .nav-links { display: flex; gap: clamp(18px, 3vw, 36px); font-size: 13px; font-weight: 600; color: rgba(255,255,255,.82); }
+    .nav-links a { transition: color .25s ease; }
+    .nav-links a:hover { color: var(--yellow); }
+    .menu-toggle { display: none; border: 0; background: transparent; color: white; font-size: 27px; cursor: pointer; }
+
+    .hero-content { padding: 150px 0 210px; position: relative; z-index: 1; max-width: 760px; }
+    .eyebrow { display: flex; align-items: center; gap: 11px; text-transform: uppercase; letter-spacing: .15em; font-size: 11px; font-weight: 800; color: var(--yellow); }
+    .eyebrow::before { content: ''; width: 32px; height: 2px; background: var(--yellow); }
+    h1, h2, h3, p { margin-top: 0; }
+    h1 { margin: 20px 0 20px; font-family: 'Playfair Display', serif; font-size: clamp(54px, 8vw, 96px); line-height: .98; letter-spacing: -.055em; max-width: 740px; }
+    .hero-copy { max-width: 525px; color: rgba(255,255,255,.8); font-size: 17px; }
+    .button { display: inline-flex; align-items: center; gap: 14px; margin-top: 28px; padding: 14px 21px; border-radius: 999px; background: var(--red); color: #fff; font-size: 13px; font-weight: 800; transition: transform .25s ease, background .25s ease; }
+    .button:hover { transform: translateY(-3px); background: var(--red-dark); }
+    .button span { font-size: 20px; line-height: .6; }
+
+    .section { padding: 120px 0; }
+    .section-header { display: grid; grid-template-columns: minmax(240px, .8fr) 1fr; gap: 80px; align-items: end; margin-bottom: 52px; }
+    .section-kicker { color: var(--red); text-transform: uppercase; letter-spacing: .14em; font-size: 11px; font-weight: 800; }
+    h2 { margin: 13px 0 0; color: var(--green); font-family: 'Playfair Display', serif; font-size: clamp(38px, 5vw, 62px); line-height: 1.03; letter-spacing: -.05em; }
+    .section-intro { max-width: 500px; color: var(--muted); font-size: 16px; }
+
+    .history { background: var(--paper); }
+    .history-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 76px; align-items: center; }
+    .history-photo { position: relative; padding: 0 40px 42px 0; }
+    .history-photo img { width: 100%; aspect-ratio: 1 / 1.08; object-fit: cover; border-radius: var(--radius); }
+    .history-photo::after { content: '01 / 05'; position: absolute; right: 0; bottom: 0; padding: 25px 27px; background: var(--gold); color: var(--green-dark); font-size: 13px; font-weight: 800; }
+    .history-text p { color: var(--muted); font-size: 17px; }
+    .fact { display: flex; gap: 16px; margin-top: 28px; padding-top: 23px; border-top: 1px solid var(--line); color: var(--green); font-size: 14px; font-weight: 700; }
+    .fact strong { color: var(--red); font-family: 'Playfair Display', serif; font-size: 38px; line-height: 1; }
+
+    .meaning { background: #e9f0e5; }
+    .meaning-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+    .meaning-card { min-height: 285px; padding: 28px; background: #fff; border: 1px solid rgba(30,70,32,.07); border-radius: var(--radius); display: flex; flex-direction: column; justify-content: space-between; transition: transform .3s ease, box-shadow .3s ease; }
+    .meaning-card:hover { transform: translateY(-8px); box-shadow: var(--shadow); }
+    .card-number { color: var(--red); font-size: 12px; font-weight: 800; }
+    .meaning-card h3 { margin: 50px 0 10px; color: var(--green); font-size: 19px; letter-spacing: -.03em; }
+    .meaning-card p { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.6; }
+
+    .city { color: #fff; background: var(--green); overflow: hidden; }
+    .city .section-kicker { color: var(--yellow); }
+    .city h2 { color: #fff; }
+    .city .section-intro { color: rgba(255,255,255,.68); }
+    .city-grid { display: grid; grid-template-columns: 1.15fr .85fr; gap: 76px; align-items: center; }
+    .city-image { position: relative; }
+    .city-image img { width: 100%; aspect-ratio: 1.25 / 1; object-fit: cover; border-radius: var(--radius); }
+    .city-badge { position: absolute; bottom: -25px; right: -25px; width: 126px; height: 126px; padding: 20px; display: grid; place-items: center; text-align: center; border-radius: 50%; color: var(--green); background: var(--yellow); font-size: 12px; font-weight: 800; line-height: 1.35; }
+    .city-text p { color: rgba(255,255,255,.74); font-size: 16px; }
+    .city-list { margin: 28px 0 0; padding: 0; list-style: none; }
+    .city-list li { display: flex; gap: 14px; padding: 15px 0; border-top: 1px solid rgba(255,255,255,.18); font-size: 14px; }
+    .city-list li::before { content: '✦'; color: var(--yellow); }
+
+    .gallery { background: var(--paper); }
+    .gallery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+    .gallery-item { position: relative; overflow: hidden; border-radius: 12px; }
+    .gallery-item img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; transition: transform .6s cubic-bezier(.2,.7,.2,1); }
+    .gallery-item:hover img { transform: scale(1.08); }
+    .gallery-caption { position: absolute; inset: auto 0 0; padding: 32px 18px 15px; color: #fff; background: linear-gradient(transparent, rgba(0,0,0,.7)); font-size: 13px; font-weight: 700; }
+
+    .closing { padding: 130px 0; text-align: center; background: linear-gradient(120deg, #f4a261 0%, #ffd166 100%); }
+    .closing h2 { max-width: 740px; margin: 15px auto; color: var(--green-dark); }
+    .closing p { max-width: 620px; margin: 0 auto; color: rgba(18,52,22,.75); }
+    .closing .button { background: var(--green); }
+
+    .reveal { opacity: 0; transform: translateY(25px); transition: opacity .7s ease, transform .7s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    @media (max-width: 800px) {
+      .container { width: min(100% - 36px, 620px); }
+      .hero { min-height: 680px; }
+      .nav-links { position: absolute; top: 76px; right: 0; left: 0; display: none; flex-direction: column; gap: 0; padding: 10px 18px; border: 1px solid rgba(255,255,255,.14); border-radius: 14px; background: rgba(18,52,22,.96); }
+      .nav-links.open { display: flex; }
+      .nav-links a { padding: 12px 0; }
+      .menu-toggle { display: block; }
+      .hero-content { padding: 130px 0 160px; }
+      .section { padding: 80px 0; }
+      .section-header, .history-grid, .city-grid { grid-template-columns: 1fr; gap: 30px; }
+      .meaning-grid { grid-template-columns: repeat(2, 1fr); }
+      .city-badge { right: 12px; }
+      .gallery-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+    }
+    @media (max-width: 480px) {
+      .container { width: min(100% - 28px, 390px); }
+      h1 { font-size: 52px; }
+      .hero-copy { font-size: 15px; }
+      .meaning-grid { grid-template-columns: 1fr; }
+      .meaning-card { min-height: 225px; }
+      .history-photo { padding-right: 18px; padding-bottom: 25px; }
+      .gallery-grid { grid-template-columns: 1fr; gap: 12px; }
+      .gallery-caption { padding-left: 12px; font-size: 11px; }
+    }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; } }
+  </style>
 </head>
 <body>
-  <div class="model-status">3D модель жүктелуде</div>
-
-  <div class="page-shell">
-    <nav class="site-nav" aria-label="Негізгі навигация">
-      <a class="logo" href="#hero"><span class="logo-mark">✿</span><span>QYZĞALDAQ / SHYMKENT</span></a>
-      <div class="nav-links">
-        <a href="#tarikhy">Тарихы</a>
-        <a href="#manizy">Маңызы</a>
-        <a href="#shymkent">Шымкент</a>
-        <a href="#gallery">Фото</a>
-        <a href="#qorytyndy">Қорытынды</a>
+  <header class="hero" id="top">
+    <div class="container">
+      <nav class="nav" aria-label="Негізгі навигация">
+        <a class="brand" href="#top"><span class="brand-mark">✿</span><span>QYZĞALDAQ</span></a>
+        <button class="menu-toggle" aria-label="Мәзірді ашу" aria-expanded="false">☰</button>
+        <div class="nav-links">
+          <a href="#tarikhy">Тарихы</a><a href="#manizy">Маңызы</a><a href="#shymkent">Шымкент</a><a href="#gallery">Галерея</a><a href="#qorytyndy">Қорытынды</a>
+        </div>
+      </nav>
+      <div class="hero-content reveal">
+        <div class="eyebrow">Дала гүлі · көктем тынысы</div>
+        <h1>Қызғалдақ — дала сәні мен көктем символы</h1>
+        <p class="hero-copy">Тамыры терең тарихтан басталып, бүгінгі қалалардың көркіне айналған нәзік гүлдің табиғаты мен тағдырына саяхат.</p>
+        <a class="button" href="#tarikhy">Зерттеу <span>↘</span></a>
       </div>
-    </nav>
+    </div>
+  </header>
 
-    <main>
-      <section class="story-section hero" id="hero">
-        <div class="story-inner">
-          <div class="glass-panel">
-            <div class="eyebrow">01 / Бастау</div>
-            <h1>Шымкент қызғалдағы — ұлы дала символы</h1>
-            <p class="lead">Көктемнің нәзік гүліне айналған тарих, табиғат және қала тынысы бір кеңістікте тоғысады.</p>
-            <a class="scroll-cue" href="#tarikhy">Зерттеуді бастау <span>↓</span></a>
-          </div>
+  <main>
+    <section class="section history" id="tarikhy">
+      <div class="container">
+        <div class="section-header reveal"><div><div class="section-kicker">01 · Бастау</div><h2>Тамыры — Ұлы далада</h2></div><p class="section-intro">Қазақстан қызғалдақтың жабайы түрлері ең көп таралған аймақтардың бірі ғана емес, оның тарихи отаны саналады.</p></div>
+        <div class="history-grid">
+          <div class="history-photo reveal"><img src="https://images.unsplash.com/photo-1490750967868-88aa4486c946?auto=format&fit=crop&w=1200&q=85" alt="Қызыл қызғалдақтар алқабы"></div>
+          <div class="history-text reveal"><p>Қазақстанның кең даласында Грейг пен Кауфман қызғалдағы секілді сирек әрі әсем жабайы түрлер ерте заманнан өсіп келеді. Бұл гүлдер Тянь-Шань тауларынан бастап оңтүстік өңірлерге дейінгі табиғи ландшафттың ажырамас бөлігі.</p><p>Ұлы Жібек жолы арқылы қызғалдақтың пиязшықтары батысқа таралып, алдымен Осман империясының бақтарына жетті. Кейін Еуропаға барып, әлемге әйгілі көктем гүлінің символына айналды.</p><div class="fact"><strong>16+</strong><span>Қызғалдақтың жабайы түрі Қазақстанның Қызыл кітабына енгізілген.</span></div></div>
         </div>
-      </section>
+      </div>
+    </section>
 
-      <section class="story-section" id="tarikhy">
-        <div class="story-inner">
-          <div class="glass-panel">
-            <div class="eyebrow">02 / Тарихы</div>
-            <h2>Даладағы алғашқы із</h2>
-            <p>Қазақстан қызғалдақтың жабайы түрлерінің тарихи отаны саналады. Грейг пен Кауфман қызғалдағы Тянь-Шань бөктерінен оңтүстік далаларға дейін өсіп, табиғи ландшафттың көркін қалыптастырды.</p>
-            <p class="meta-line"><strong>Ұлы жол</strong><span>Қызғалдақтың пиязшықтары Ұлы Жібек жолы арқылы Осман империясына, кейін Еуропа бақтарына жетті.</span></p>
-          </div>
+    <section class="section meaning" id="manizy">
+      <div class="container">
+        <div class="section-header reveal"><div><div class="section-kicker">02 · Мәні</div><h2>Бір гүл, бірнеше мағына</h2></div><p class="section-intro">Қызғалдақ табиғаттың жаңаруын ғана емес, халықтың мәдени жадын және туған жерге деген құрметін де білдіреді.</p></div>
+        <div class="meaning-grid">
+          <article class="meaning-card reveal"><span class="card-number">01</span><div><h3>Жаңару</h3><p>Көктемнің алғашқы хабаршысы ретінде жаңа бастамалар мен үміттің белгісі.</p></div></article>
+          <article class="meaning-card reveal"><span class="card-number">02</span><div><h3>Наурыз</h3><p>Табиғат оянып, тіршілік қайта түлейтін Ұлыстың ұлы күнімен үндес.</p></div></article>
+          <article class="meaning-card reveal"><span class="card-number">03</span><div><h3>Табиғат</h3><p>Жабайы түрлерді қорғау арқылы дала экожүйесінің тепе-теңдігін сақтаймыз.</p></div></article>
+          <article class="meaning-card reveal"><span class="card-number">04</span><div><h3>Сұлулық</h3><p>Түсі мен пішінінің алуан түрлілігі өнерге, дизайнға және қала мәдениетіне шабыт береді.</p></div></article>
         </div>
-      </section>
+      </div>
+    </section>
 
-      <section class="story-section" id="manizy">
-        <div class="story-inner">
-          <div class="glass-panel">
-            <div class="eyebrow">03 / Маңызы</div>
-            <h2>Жаңарудың қызыл белгісі</h2>
-            <p>Қызғалдақ Наурыздың жаңару идеясымен үндеседі. Ол көктемнің келгенін, табиғаттың оянғанын және жаңа бастамаларға деген үмітті білдіреді.</p>
-            <p class="meta-line"><strong>4 реңк</strong><span>Табиғат, мәдениет, сұлулық және болашаққа жауапкершілік.</span></p>
-          </div>
+    <section class="section city" id="shymkent">
+      <div class="container">
+        <div class="section-header reveal"><div><div class="section-kicker">03 · Қала тынысы</div><h2>Шымкент — қызғалдақ мекені</h2></div><p class="section-intro">Шуақты шаһардың бейнесі қызғалдақпен біте қайнасып, әр көктем сайын жаңаша құлпырады.</p></div>
+        <div class="city-grid">
+          <div class="city-image reveal"><img src="https://images.unsplash.com/photo-1468327768560-75b778cbb551?auto=format&fit=crop&w=1400&q=85" alt="Көктемгі гүлдер арасындағы жол"><div class="city-badge">ШЫМКЕНТ<br>КӨКТЕМІ</div></div>
+          <div class="city-text reveal"><p>Қызғалдақ Шымкент қаласының ресми символдарының бірі ретінде қала болмысының ажырамас бөлшегіне айналды. Оның бейнесі сәулетте, саябақтарда және қоғамдық кеңістіктерде көрініс табады.</p><ul class="city-list"><li>Қызғалдақ пішініндегі ерекше субұрқақ — қаланың танымал нышаны.</li><li>Көктем сайын қызғалдақ фестивальдері өтіп, көшелер мен алаңдар гүлге бөленеді.</li><li>Қала тұрғындары мен қонақтары табиғаттың оянуын бірге қарсы алады.</li></ul></div>
         </div>
-      </section>
+      </div>
+    </section>
 
-      <section class="story-section" id="shymkent">
-        <div class="story-inner">
-          <div class="glass-panel">
-            <div class="eyebrow">04 / Шымкент</div>
-            <h2>Қаланың гүлге айналған бейнесі</h2>
-            <p>Шымкентте қызғалдақ қаланың ресми логотипі мен танымал символдарының біріне айналды. Қызғалдақ пішініндегі субұрқақтар, көктемгі фестивальдер мен гүлге бөленген көшелер шаһардың шуақты мінезін көрсетеді.</p>
-            <p class="meta-line"><strong>Шымкент</strong><span>Көктем келгенде қала кеңістігі тірі көрмеге айналады.</span></p>
-          </div>
+    <section class="section gallery" id="gallery">
+      <div class="container">
+        <div class="section-header reveal"><div><div class="section-kicker">04 · Көрініс</div><h2>Көктемнің алты реңкі</h2></div><p class="section-intro">Даланың әр бұрышынан байқалатын нәзік ырғақ: қызыл, сары, қызғылт және ақ түстердің табиғи үйлесімі.</p></div>
+        <div class="gallery-grid">
+          <figure class="gallery-item reveal"><img src="https://upload.wikimedia.org/wikipedia/commons/a/ae/Tulip_Field_Tulips_Red_Holland_Nature_Flowers.jpg" alt="Түрлі түсті тюльпан алқабы"><figcaption class="gallery-caption">Түстер алқабы</figcaption></figure>
+          <figure class="gallery-item reveal"><img src="https://upload.wikimedia.org/wikipedia/commons/4/46/Tulip_field_%282%29.jpg" alt="Қызыл тюльпан алқабы"><figcaption class="gallery-caption">Қызыл жолақ</figcaption></figure>
+          <figure class="gallery-item reveal"><img src="https://upload.wikimedia.org/wikipedia/commons/3/36/Tulip_field_29-03-24.jpg" alt="Көктемгі тюльпан алқабы"><figcaption class="gallery-caption">Көктем тынысы</figcaption></figure>
+          <figure class="gallery-item reveal"><img src="https://upload.wikimedia.org/wikipedia/commons/d/db/Tulip_field_in_Holland.jpg" alt="Таулар алдындағы тюльпан алқабы"><figcaption class="gallery-caption">Дала мен тау</figcaption></figure>
+          <figure class="gallery-item reveal"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/01_Small_red_tulip.jpg/1280px-01_Small_red_tulip.jpg" alt="Қызыл тюльпан гүлі"><figcaption class="gallery-caption">Қызыл леп</figcaption></figure>
+          <figure class="gallery-item reveal"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Red_and_white_tulip_at_Myddelton_House%2C_Enfield%2C_London.jpg/1280px-Red_and_white_tulip_at_Myddelton_House%2C_Enfield%2C_London.jpg" alt="Қызыл-ақ тюльпан гүлі"><figcaption class="gallery-caption">Қызыл-ақ реңк</figcaption></figure>
         </div>
-      </section>
+      </div>
+    </section>
 
-      <section class="story-section gallery-section" id="gallery">
-        <div class="gallery-inner">
-          <div class="gallery-side gallery-left">
-            <figure><img src="https://images.pexels.com/photos/16111756/pexels-photo-16111756.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=900" alt="Күлгін қызғалдақ"><figcaption>Күлгін қызғалдақ</figcaption></figure>
-            <figure><img src="https://images.pexels.com/photos/15210487/pexels-photo-15210487.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=900" alt="Қызыл және ақ қызғалдақтар"><figcaption>Қызыл-ақ реңк</figcaption></figure>
-            <figure><img src="https://images.pexels.com/photos/7535967/pexels-photo-7535967.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=900" alt="Сары қызғалдақтар"><figcaption>Сары қызғалдақ</figcaption></figure>
-          </div>
-          <div class="gallery-side gallery-right">
-            <figure><img src="https://images.pexels.com/photos/12147983/pexels-photo-12147983.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=900" alt="Қызғылт қызғалдақтар алқабы"><figcaption>Қызғылт алқап</figcaption></figure>
-            <figure><img src="https://images.pexels.com/photos/7205235/pexels-photo-7205235.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=900" alt="Қызғылт қызғалдақтың жақын көрінісі"><figcaption>Нәзік гүл</figcaption></figure>
-            <figure><img src="https://images.pexels.com/photos/11467352/pexels-photo-11467352.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=900" alt="Қызғылт қызғалдақтар"><figcaption>Көктем бояуы</figcaption></figure>
-          </div>
-        </div>
-      </section>
+    <section class="closing" id="qorytyndy">
+      <div class="container reveal"><div class="section-kicker">05 · Аманат</div><h2>Қызғалдақты қорғайық — даланы сақтайық</h2><p>Қызыл кітапқа енген сирек түрлерді жұлмай, табиғи мекенін бүлдірмей, келер ұрпаққа көктемнің осы ғажайып бояуын аман жеткізейік.</p><a class="button" href="#top">Басты бетке <span>↑</span></a></div>
+    </section>
+  </main>
 
-      <section class="story-section" id="qorytyndy">
-        <div class="story-inner">
-          <div class="glass-panel">
-            <div class="eyebrow">06 / Қорытынды</div>
-            <h2>Гүлді қорғау — даланы қорғау</h2>
-            <p>Қызыл кітапқа енген сирек қызғалдақтарды жұлмай, олардың табиғи мекенін сақтайық. Әр гүл — болашақ ұрпаққа қалатын тірі аманат.</p>
-            <a class="scroll-cue" href="#hero">Қайта бастау <span>↑</span></a>
-          </div>
-        </div>
-      </section>
-    </main>
-  </div>
-
-  <canvas id="webgl-canvas" aria-label="Қызғалдақтың 3D моделі"></canvas>
-
-  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
-  <script>gsap.registerPlugin(ScrollTrigger);</script>
-  <script src="main.js"></script>
+  <script>
+    const menuButton = document.querySelector('.menu-toggle');
+    const navLinks = document.querySelector('.nav-links');
+    menuButton.addEventListener('click', () => {
+      const isOpen = navLinks.classList.toggle('open');
+      menuButton.setAttribute('aria-expanded', isOpen);
+    });
+    navLinks.addEventListener('click', (event) => {
+      if (event.target.matches('a')) {
+        navLinks.classList.remove('open');
+        menuButton.setAttribute('aria-expanded', 'false');
+      }
+    });
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach((element) => observer.observe(element));
+  </script>
 </body>
 </html>
