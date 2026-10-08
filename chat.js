@@ -251,16 +251,16 @@ async function sendMessage() {
   addTypingIndicator();
 
   try {
-    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`, {
+    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent?key=${API_KEY}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
         system_instruction: {
-          parts: {
+          parts: [{
             text: "Сен Қызғалдақ (тюльпан) туралы сарапшысың. Қазақ тілінде қысқа, түсінікті әрі сыпайы жауап бер. Тек қана қызғалдақтар, олардың тарихы, түрлері және Шымкент қаласымен байланысы туралы сұрақтарға жауап бер. Басқа тақырыптағы сұрақтарға кешірім сұрап, тек қызғалдақ туралы айта алатыныңды ескерт."
-          }
+          }]
         },
         contents: [{
           parts: [{ text: text }]
