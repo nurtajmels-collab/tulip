@@ -215,10 +215,10 @@ closeButton.addEventListener('click', () => {
 
 function addMessage(text, sender) {
   const msgDiv = document.createElement('div');
-  msgDiv.className = \`chat-message \${sender}\`;
+  msgDiv.className = `chat-message ${sender}`;
   
   // Basic markdown-like bold parsing for better formatting
-  let formattedText = text.replace(/\\*\\*(.*?)\\*\\*/g, '<strong>$1</strong>');
+  let formattedText = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
   
   msgDiv.innerHTML = formattedText;
   messagesContainer.appendChild(msgDiv);
@@ -251,7 +251,7 @@ async function sendMessage() {
   addTypingIndicator();
 
   try {
-    const response = await fetch(\`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=\${API_KEY}\`, {
+    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
