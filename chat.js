@@ -231,29 +231,6 @@ function removeTypingIndicator() {
   if (indicator) indicator.remove();
 }
 
-function waitBeforeRateLimitRetry(seconds) {
-  return new Promise((resolve) => {
-    let remaining = seconds;
-    const updateStatus = () => {
-      const indicator = document.getElementById('typing-indicator');
-      if (indicator) {
-        indicator.textContent = `Сұрау лимиті босауын күтіп тұрмыз. Қайталап көреміз: ${remaining} сек.`;
-      }
-    };
-
-    updateStatus();
-    const timer = setInterval(() => {
-      remaining -= 1;
-      if (remaining <= 0) {
-        clearInterval(timer);
-        resolve();
-      } else {
-        updateStatus();
-      }
-    }, 1000);
-  });
-}
-
 async function sendMessage() {
   const text = inputField.value.trim();
   if (!text) return;
@@ -286,12 +263,7 @@ async function sendMessage() {
       return { response, data };
     };
 
-    let { response, data } = await requestChat();
-    if (response.status === 429) {
-      console.warn('Chat API rate limited the request; retrying once in 9 seconds.');
-      await waitBeforeRateLimitRetry(9);
-      ({ response, data } = await requestChat());
-    }
+    const { response, data } = await requestChat();
 
     removeTypingIndicator();
 
@@ -300,18 +272,18 @@ async function sendMessage() {
         ? Number(data.error.code)
         : response.status;
       console.error('Chat API request failed:', apiStatus, data);
-      if (apiStatus === 429) {
-        throw new Error('Тегін AI моделінің сұрау лимиті әлі босамады. Біраздан кейін қайталап көріңіз.');
+      if (apiStatus === 429 || data?.error?.code === 'ALL_MODELS_RATE_LIMITED') {
+        throw new Error('Gemini модельдерінің де сұрау лимиті таусылды. Квота жаңарғанша күтіңіз немесе Google AI Studio-да лимитті көтеріңіз.');
       }
       if (apiStatus === 500) {
-        throw new Error('Чат серверінде OPENROUTER_API_KEY кілті бапталмаған.');
+        throw new Error('Чат серверінде GEMINI_API_KEY кілті бапталмаған.');
       }
       if (apiStatus === 502 || apiStatus === 503) {
         if (data?.error?.code === 'UPSTREAM_UNAVAILABLE') {
-          throw new Error(`Vercel сервері OpenRouter-ге қосыла алмады (${data.error.providerCode || 'unknown'}). Vercel Function Logs журналын тексеріңіз.`);
+          throw new Error(`Vercel сервері Gemini-ге қосыла алмады (${data.error.providerCode || 'unknown'}). Vercel Function Logs журналын тексеріңіз.`);
         }
         if (data?.error?.code === 'INVALID_UPSTREAM_RESPONSE') {
-          throw new Error('OpenRouter сервері жарамсыз жауап қайтарды. Кейінірек қайталап көріңіз.');
+          throw new Error('Gemini сервері жарамсыз жауап қайтарды. Кейінірек қайталап көріңіз.');
         }
         throw new Error('AI сервисі уақытша жауап бермей тұр. Кейінірек қайталап көріңіз.');
       }
