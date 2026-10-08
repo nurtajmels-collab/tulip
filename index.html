@@ -161,6 +161,7 @@
     .district-tulip-card h4 { margin: 0; color: var(--green); font-size: 20px; line-height: 1.35; }
     .district-tulip-scientific { margin: 4px 0 13px; color: #567b55; font-family: 'Playfair Display', serif; font-size: 17px; font-style: italic; }
     .district-tulip-description { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.75; }
+    .district-tulip-image { display: block; width: 100%; max-height: 220px; margin-top: 16px; border-radius: 12px; object-fit: cover; box-shadow: 0 4px 16px rgba(20,42,23,.1); transition: opacity .3s ease; }
     .district-symbol-note { display: flex; gap: 11px; margin-top: 17px; padding: 14px; border: 1px solid #e0ebdd; border-radius: 14px; color: #3d6140; background: #f3f8f0; font-size: 12px; line-height: 1.6; }
     .district-symbol-note span:first-child { color: var(--red); font-size: 17px; }
     @media (max-width: 800px) {
@@ -303,6 +304,7 @@
                 <h4 id="district-tulip">Грейг қызғалдағы</h4>
                 <p class="district-tulip-scientific" id="district-scientific">Tulipa greigii</p>
                 <p class="district-tulip-description" id="district-description">Қаланың орталығы мен мәдени жүрегіне тән отты қызыл қызғалдақ.</p>
+                <img id="district-image" class="district-tulip-image" src="https://upload.wikimedia.org/wikipedia/commons/d/d0/Tulipa_greigii_2.jpg" alt="Грейг қызғалдағы">
               </div>
               <div class="district-symbol-note"><span aria-hidden="true">✿</span><span>Әр гүл — туған өлкенің табиғаты мен мінезін баяндайтын тірі символ.</span></div>
             </div>
@@ -349,35 +351,40 @@
         tulip: 'Грейг қызғалдағы',
         scientific: 'Tulipa greigii',
         description: 'Қаланың орталығы мен мәдени жүрегіне тән отты қызыл қызғалдақ.',
-        color: '#ef4444'
+        color: '#ef4444',
+        image: 'https://upload.wikimedia.org/wikipedia/commons/d/d0/Tulipa_greigii_2.jpg'
       },
       karatau: {
         name: 'Қаратау ауданы',
         tulip: 'Қаратау қызғалдағы',
         scientific: 'Tulipa karatavica',
         description: 'Қаратау жоталарының эндемигі, таулы табиғат пен таза ауа символы.',
-        color: '#7e22ce'
+        color: '#7e22ce',
+        image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/Tulipa_greigii_hybrid.jpg/800px-Tulipa_greigii_hybrid.jpg'
       },
       abai: {
         name: 'Абай ауданы',
         tulip: 'Шренк қызғалдағы',
         scientific: 'Tulipa schrenkii',
         description: 'Түстері алуан түрлі, өнер мен поэзияға шабыт беретін әсем гүл.',
-        color: '#db2777'
+        color: '#db2777',
+        image: 'https://upload.wikimedia.org/wikipedia/commons/6/6f/Tulipa_suaveolens.jpg'
       },
       enbekshi: {
         name: 'Еңбекші ауданы',
         tulip: 'Альберт қызғалдағы',
         scientific: 'Tulipa alberti',
         description: 'Тасты далада өсуге бейім, еңбекші халықтың төзімділігін бейнелейтін қызғалдақ.',
-        color: '#ea580c'
+        color: '#ea580c',
+        image: 'https://upload.wikimedia.org/wikipedia/commons/a/a2/Tulipa_alberti_Gartenflora_26_t_912_%281877%29.jpg'
       },
       turan: {
         name: 'Тұран ауданы',
         tulip: 'Түркістан қызғалдағы',
         scientific: 'Tulipa turkestanica',
         description: 'Жаңа ауданның қарқынды өсіп-өркендеуін бейнелейтін көпгүлді қызғалдақ.',
-        color: '#2563eb'
+        color: '#2563eb',
+        image: 'https://upload.wikimedia.org/wikipedia/commons/8/84/Tulipa_turkestanica.jpg'
       }
     };
     const districtMap = document.querySelector('.district-map-section');
@@ -404,6 +411,8 @@
         districtMap.querySelector('#district-tulip').textContent = district.tulip;
         districtMap.querySelector('#district-scientific').textContent = district.scientific;
         districtMap.querySelector('#district-description').textContent = district.description;
+        districtMap.querySelector('#district-image').src = district.image;
+        districtMap.querySelector('#district-image').alt = district.tulip;
         districtMap.querySelector('.district-info-card').style.setProperty('--district-accent', district.color);
       };
       districtMap.querySelectorAll('[data-district]').forEach((element) => {
