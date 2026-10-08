@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="kk">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Shymkent Tulip Map preview</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+      body { margin: 0; background: #f5f5f0; }
+    </style>
+  </head>
+  <body>
+    <main id="root"></main>
+    <script>
+      (async () => {
+        const response = await fetch("./ShymkentTulipMap.tsx");
+        if (!response.ok) throw new Error(`Component request failed: ${response.status}`);
+        const source = (await response.text())
+          .replace('import { useState } from "react";', "const { useState } = React;")
+          .replace("export default function ShymkentTulipMap()", "function ShymkentTulipMap()");
+        const compiled = Babel.transform(source, {
+          presets: ["typescript", ["react", { runtime: "classic" }]],
+          filename: "ShymkentTulipMap.tsx",
+        }).code;
+        const Component = new Function("React", `${compiled}; return ShymkentTulipMap;`)(React);
+        ReactDOM.createRoot(document.getElementById("root")).render(React.createElement(Component));
+      })().catch((error) => {
+        document.getElementById("root").textContent = `Preview failed to load: ${error.message}`;
+        console.error(error);
+      });
+    </script>
+  </body>
+</html>

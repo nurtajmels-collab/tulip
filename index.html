@@ -1,0 +1,436 @@
+<!doctype html>
+<html lang="kk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Қызғалдақ туралы: тарихы, маңызы және Шымкентпен байланысы.">
+  <title>Қызғалдақ — дала сәні</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --green: #1e4620;
+      --green-dark: #123416;
+      --green-soft: #dce9d5;
+      --red: #e63946;
+      --red-dark: #bb2734;
+      --gold: #f4a261;
+      --yellow: #ffd166;
+      --paper: #f8f9fa;
+      --ink: #17241a;
+      --muted: #607064;
+      --line: rgba(30, 70, 32, .14);
+      --shadow: 0 22px 50px rgba(20, 42, 23, .13);
+      --radius: 18px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--paper);
+      font-family: 'Manrope', sans-serif;
+      line-height: 1.65;
+    }
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; }
+    .container { width: min(1160px, calc(100% - 48px)); margin: 0 auto; }
+
+    .hero {
+      min-height: 740px;
+      color: #fff;
+      background:
+        linear-gradient(105deg, rgba(15, 44, 19, .95) 0%, rgba(21, 64, 26, .78) 48%, rgba(21, 64, 26, .16) 100%),
+        url('https://images.unsplash.com/photo-1490750967868-88aa4486c946?auto=format&fit=crop&w=2200&q=90') center/cover;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      inset: auto 0 0;
+      height: 130px;
+      background: linear-gradient(transparent, var(--paper));
+      pointer-events: none;
+    }
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 92px;
+      position: relative;
+      z-index: 5;
+    }
+    .brand { display: flex; align-items: center; gap: 12px; font-weight: 800; letter-spacing: -.04em; }
+    .brand-mark { width: 38px; height: 38px; display: grid; place-items: center; border: 1px solid rgba(255,255,255,.45); border-radius: 50%; color: var(--yellow); font-size: 21px; }
+    .nav-links { display: flex; gap: clamp(18px, 3vw, 36px); font-size: 13px; font-weight: 600; color: rgba(255,255,255,.82); }
+    .nav-links a { transition: color .25s ease; }
+    .nav-links a:hover { color: var(--yellow); }
+    .menu-toggle { display: none; border: 0; background: transparent; color: white; font-size: 27px; cursor: pointer; }
+
+    .hero-content { padding: 150px 0 210px; position: relative; z-index: 1; max-width: 760px; }
+    .eyebrow { display: flex; align-items: center; gap: 11px; text-transform: uppercase; letter-spacing: .15em; font-size: 11px; font-weight: 800; color: var(--yellow); }
+    .eyebrow::before { content: ''; width: 32px; height: 2px; background: var(--yellow); }
+    h1, h2, h3, p { margin-top: 0; }
+    h1 { margin: 20px 0 20px; font-family: 'Playfair Display', serif; font-size: clamp(54px, 8vw, 96px); line-height: .98; letter-spacing: -.055em; max-width: 740px; }
+    .hero-copy { max-width: 525px; color: rgba(255,255,255,.8); font-size: 17px; }
+    .button { display: inline-flex; align-items: center; gap: 14px; margin-top: 28px; padding: 14px 21px; border-radius: 999px; background: var(--red); color: #fff; font-size: 13px; font-weight: 800; transition: transform .25s ease, background .25s ease; }
+    .button:hover { transform: translateY(-3px); background: var(--red-dark); }
+    .button span { font-size: 20px; line-height: .6; }
+
+    .section { padding: 120px 0; }
+    .section-header { display: grid; grid-template-columns: minmax(240px, .8fr) 1fr; gap: 80px; align-items: end; margin-bottom: 52px; }
+    .section-kicker { color: var(--red); text-transform: uppercase; letter-spacing: .14em; font-size: 11px; font-weight: 800; }
+    h2 { margin: 13px 0 0; color: var(--green); font-family: 'Playfair Display', serif; font-size: clamp(38px, 5vw, 62px); line-height: 1.03; letter-spacing: -.05em; }
+    .section-intro { max-width: 500px; color: var(--muted); font-size: 16px; }
+
+    .history { background: var(--paper); }
+    .history-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 76px; align-items: center; }
+    .history-photo { position: relative; padding: 0 40px 42px 0; }
+    .history-photo img { width: 100%; aspect-ratio: 1 / 1.08; object-fit: cover; border-radius: var(--radius); }
+    .history-photo::after { content: '01 / 05'; position: absolute; right: 0; bottom: 0; padding: 25px 27px; background: var(--gold); color: var(--green-dark); font-size: 13px; font-weight: 800; }
+    .history-text p { color: var(--muted); font-size: 17px; }
+    .fact { display: flex; gap: 16px; margin-top: 28px; padding-top: 23px; border-top: 1px solid var(--line); color: var(--green); font-size: 14px; font-weight: 700; }
+    .fact strong { color: var(--red); font-family: 'Playfair Display', serif; font-size: 38px; line-height: 1; }
+
+    .meaning { background: #e9f0e5; }
+    .meaning-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+    .meaning-card { min-height: 285px; padding: 28px; background: #fff; border: 1px solid rgba(30,70,32,.07); border-radius: var(--radius); display: flex; flex-direction: column; justify-content: space-between; transition: transform .3s ease, box-shadow .3s ease; }
+    .meaning-card:hover { transform: translateY(-8px); box-shadow: var(--shadow); }
+    .card-number { color: var(--red); font-size: 12px; font-weight: 800; }
+    .meaning-card h3 { margin: 50px 0 10px; color: var(--green); font-size: 19px; letter-spacing: -.03em; }
+    .meaning-card p { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.6; }
+
+    .city { color: #fff; background: var(--green); overflow: hidden; }
+    .city .section-kicker { color: var(--yellow); }
+    .city h2 { color: #fff; }
+    .city .section-intro { color: rgba(255,255,255,.68); }
+    .city-grid { display: grid; grid-template-columns: 1.15fr .85fr; gap: 76px; align-items: center; }
+    .city-image { position: relative; }
+    .city-image img { width: 100%; aspect-ratio: 1.25 / 1; object-fit: cover; border-radius: var(--radius); }
+    .city-badge { position: absolute; bottom: -25px; right: -25px; width: 126px; height: 126px; padding: 20px; display: grid; place-items: center; text-align: center; border-radius: 50%; color: var(--green); background: var(--yellow); font-size: 12px; font-weight: 800; line-height: 1.35; }
+    .city-text p { color: rgba(255,255,255,.74); font-size: 16px; }
+    .city-list { margin: 28px 0 0; padding: 0; list-style: none; }
+    .city-list li { display: flex; gap: 14px; padding: 15px 0; border-top: 1px solid rgba(255,255,255,.18); font-size: 14px; }
+    .city-list li::before { content: '✦'; color: var(--yellow); }
+
+    .gallery { background: var(--paper); }
+    .gallery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+    .gallery-item { position: relative; overflow: hidden; border-radius: 12px; }
+    .gallery-item img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; transition: transform .6s cubic-bezier(.2,.7,.2,1); }
+    .gallery-item:hover img { transform: scale(1.08); }
+    .gallery-caption { position: absolute; inset: auto 0 0; padding: 32px 18px 15px; color: #fff; background: linear-gradient(transparent, rgba(0,0,0,.7)); font-size: 13px; font-weight: 700; }
+
+    .district-map-section { background: #f0f4ed; }
+    .district-map-layout { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(300px, .85fr); gap: 28px; align-items: stretch; }
+    .district-map-card, .district-info-card { border: 1px solid rgba(30,70,32,.09); border-radius: 22px; background: #fff; box-shadow: 0 18px 48px rgba(20,42,23,.08); }
+    .district-map-card { padding: clamp(18px, 3vw, 30px); }
+    .district-map-heading { display: flex; align-items: center; justify-content: space-between; gap: 14px; margin-bottom: 10px; color: var(--green); font-size: 14px; font-weight: 800; }
+    .district-map-count { padding: 6px 11px; border-radius: 999px; background: #edf5e9; color: var(--green); font-size: 11px; white-space: nowrap; }
+    .district-map-svg { display: block; width: 100%; height: auto; overflow: visible; }
+    .district-shape { cursor: pointer; stroke: #fff; stroke-width: 7; stroke-linejoin: round; transition: fill .25s ease, fill-opacity .2s ease; }
+    .district-shape:hover { fill-opacity: .8; }
+    .district-shape:focus { outline: none; }
+    .district-shape:focus-visible { stroke: var(--green-dark); stroke-width: 10; }
+    .district-label { pointer-events: none; }
+    .district-label rect { fill: #fff; fill-opacity: .97; stroke: #dce7da; stroke-width: 1.5; transition: stroke .2s ease, stroke-width .2s ease; }
+    .district-label text { fill: var(--green-dark); font-family: 'Manrope', sans-serif; text-anchor: middle; }
+    .district-label .district-label-name { font-size: 14px; font-weight: 800; }
+    .district-label .district-label-suffix { fill: var(--muted); font-size: 10px; font-weight: 600; }
+    .district-label.is-active rect { stroke: var(--red); stroke-width: 2.5; }
+    .district-map-hint { margin: 2px 0 0; color: var(--muted); text-align: center; font-size: 12px; }
+    .district-buttons { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px; margin-top: 18px; }
+    .district-button { display: flex; align-items: center; gap: 10px; min-height: 46px; padding: 8px 11px; border: 1px solid #e2e8df; border-radius: 12px; color: #34473a; background: #fff; text-align: left; font: inherit; font-size: 12px; font-weight: 700; cursor: pointer; transition: border-color .2s ease, color .2s ease, background .2s ease, transform .2s ease; }
+    .district-button:hover { transform: translateY(-1px); border-color: #a9c7a3; background: #f7fbf5; }
+    .district-button:focus-visible { outline: 2px solid var(--green); outline-offset: 2px; }
+    .district-button-number { display: grid; width: 25px; height: 25px; flex: 0 0 25px; place-items: center; border-radius: 50%; color: #637465; background: #f0f3ef; font-size: 10px; }
+    .district-button.is-active { border-color: var(--green); color: #fff; background: var(--green); box-shadow: 0 5px 14px rgba(30,70,32,.16); }
+    .district-button.is-active .district-button-number { color: #fff; background: rgba(255,255,255,.17); }
+    .district-info-card { position: relative; overflow: hidden; padding: clamp(25px, 4vw, 40px); }
+    .district-info-card::before { position: absolute; top: -75px; right: -70px; width: 190px; height: 190px; border-radius: 50%; background: var(--district-accent, var(--red)); opacity: .09; filter: blur(24px); content: ''; transition: background .25s ease; }
+    .district-info-content { position: relative; }
+    .district-info-tag { display: inline-flex; align-items: center; gap: 8px; margin-bottom: 26px; padding: 7px 11px; border-radius: 999px; color: var(--green); background: #edf5e9; font-size: 10px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+    .district-info-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--district-accent, var(--red)); }
+    .district-info-kicker { margin-bottom: 8px; color: var(--muted); font-size: 11px; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; }
+    .district-info-card h3 { margin: 0; color: var(--green-dark); font-size: clamp(27px, 3.5vw, 38px); line-height: 1.16; letter-spacing: -.04em; }
+    .district-info-divider { height: 1px; margin: 25px 0; background: linear-gradient(90deg, var(--line), transparent); }
+    .district-tulip-card { padding: 21px; border-radius: 16px; background: #f7f8f5; }
+    .district-tulip-label { margin-bottom: 7px; color: var(--muted); font-size: 10px; font-weight: 800; letter-spacing: .13em; text-transform: uppercase; }
+    .district-tulip-card h4 { margin: 0; color: var(--green); font-size: 20px; line-height: 1.35; }
+    .district-tulip-scientific { margin: 4px 0 13px; color: #567b55; font-family: 'Playfair Display', serif; font-size: 17px; font-style: italic; }
+    .district-tulip-description { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.75; }
+    .district-symbol-note { display: flex; gap: 11px; margin-top: 17px; padding: 14px; border: 1px solid #e0ebdd; border-radius: 14px; color: #3d6140; background: #f3f8f0; font-size: 12px; line-height: 1.6; }
+    .district-symbol-note span:first-child { color: var(--red); font-size: 17px; }
+    @media (max-width: 800px) {
+      .district-map-layout { grid-template-columns: 1fr; }
+      .nav-links { gap: 13px; }
+    }
+    @media (max-width: 480px) {
+      .district-map-card { padding: 15px 12px; }
+      .district-map-heading { font-size: 12px; }
+      .district-buttons { gap: 7px; }
+      .district-button { gap: 7px; min-height: 43px; padding: 7px; font-size: 10px; }
+      .district-button-number { width: 22px; height: 22px; flex-basis: 22px; }
+      .district-label .district-label-name { font-size: 12px; }
+      .district-label rect { x: -58px; width: 116px; }
+    }
+
+    .closing { padding: 130px 0; text-align: center; background: linear-gradient(120deg, #f4a261 0%, #ffd166 100%); }
+    .closing h2 { max-width: 740px; margin: 15px auto; color: var(--green-dark); }
+    .closing p { max-width: 620px; margin: 0 auto; color: rgba(18,52,22,.75); }
+    .closing .button { background: var(--green); }
+
+    .reveal { opacity: 0; transform: translateY(25px); transition: opacity .7s ease, transform .7s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    @media (max-width: 800px) {
+      .container { width: min(100% - 36px, 620px); }
+      .hero { min-height: 680px; }
+      .nav-links { position: absolute; top: 76px; right: 0; left: 0; display: none; flex-direction: column; gap: 0; padding: 10px 18px; border: 1px solid rgba(255,255,255,.14); border-radius: 14px; background: rgba(18,52,22,.96); }
+      .nav-links.open { display: flex; }
+      .nav-links a { padding: 12px 0; }
+      .menu-toggle { display: block; }
+      .hero-content { padding: 130px 0 160px; }
+      .section { padding: 80px 0; }
+      .section-header, .history-grid, .city-grid { grid-template-columns: 1fr; gap: 30px; }
+      .meaning-grid { grid-template-columns: repeat(2, 1fr); }
+      .city-badge { right: 12px; }
+      .gallery-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+    }
+    @media (max-width: 480px) {
+      .container { width: min(100% - 28px, 390px); }
+      h1 { font-size: 52px; }
+      .hero-copy { font-size: 15px; }
+      .meaning-grid { grid-template-columns: 1fr; }
+      .meaning-card { min-height: 225px; }
+      .history-photo { padding-right: 18px; padding-bottom: 25px; }
+      .gallery-grid { grid-template-columns: 1fr; gap: 12px; }
+      .gallery-caption { padding-left: 12px; font-size: 11px; }
+    }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; } }
+  </style>
+</head>
+<body>
+  <header class="hero" id="top">
+    <div class="container">
+      <nav class="nav" aria-label="Негізгі навигация">
+        <a class="brand" href="#top"><span class="brand-mark">✿</span><span>QYZĞALDAQ</span></a>
+        <button class="menu-toggle" aria-label="Мәзірді ашу" aria-expanded="false">☰</button>
+        <div class="nav-links">
+          <a href="#tarikhy">Тарихы</a><a href="#manizy">Маңызы</a><a href="#shymkent">Шымкент</a><a href="#audandar">Аудандар</a><a href="#gallery">Галерея</a><a href="#qorytyndy">Қорытынды</a>
+        </div>
+      </nav>
+      <div class="hero-content reveal">
+        <div class="eyebrow">Дала гүлі · көктем тынысы</div>
+        <h1>Қызғалдақ және Ұлы дала: табиғаттан мәдени символға дейін</h1>
+        <p class="hero-copy">Тамыры терең тарихтан басталып, бүгінгі қалалардың көркіне айналған нәзік гүлдің табиғаты мен тағдырына саяхат.</p>
+        <a class="button" href="#tarikhy">Зерттеу <span>↘</span></a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="section history" id="tarikhy">
+      <div class="container">
+        <div class="section-header reveal"><div><div class="section-kicker">01 · Бастау</div><h2>Тамыры — Ұлы далада</h2></div><p class="section-intro">Қазақстан қызғалдақтың жабайы түрлері ең көп таралған аймақтардың бірі ғана емес, оның тарихи отаны саналады.</p></div>
+        <div class="history-grid">
+          <div class="history-photo reveal"><img src="https://images.unsplash.com/photo-1490750967868-88aa4486c946?auto=format&fit=crop&w=1200&q=85" alt="Қызыл қызғалдақтар алқабы"></div>
+          <div class="history-text reveal"><p>Қазақстанның кең даласында Грейг пен Кауфман қызғалдағы секілді сирек әрі әсем жабайы түрлер ерте заманнан өсіп келеді. Бұл гүлдер Тянь-Шань тауларынан бастап оңтүстік өңірлерге дейінгі табиғи ландшафттың ажырамас бөлігі.</p><p>Ұлы Жібек жолы арқылы қызғалдақтың пиязшықтары батысқа таралып, алдымен Осман империясының бақтарына жетті. Кейін Еуропаға барып, әлемге әйгілі көктем гүлінің символына айналды.</p><div class="fact"><strong>16+</strong><span>Қызғалдақтың жабайы түрі Қазақстанның Қызыл кітабына енгізілген.</span></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section meaning" id="manizy">
+      <div class="container">
+        <div class="section-header reveal"><div><div class="section-kicker">02 · Мәні</div><h2>Бір гүл, бірнеше мағына</h2></div><p class="section-intro">Қызғалдақ табиғаттың жаңаруын ғана емес, халықтың мәдени жадын және туған жерге деген құрметін де білдіреді.</p></div>
+        <div class="meaning-grid">
+          <article class="meaning-card reveal"><span class="card-number">01</span><div><h3>Жаңару</h3><p>Көктемнің алғашқы хабаршысы ретінде жаңа бастамалар мен үміттің белгісі.</p></div></article>
+          <article class="meaning-card reveal"><span class="card-number">02</span><div><h3>Наурыз</h3><p>Табиғат оянып, тіршілік қайта түлейтін Ұлыстың ұлы күнімен үндес.</p></div></article>
+          <article class="meaning-card reveal"><span class="card-number">03</span><div><h3>Табиғат</h3><p>Жабайы түрлерді қорғау арқылы дала экожүйесінің тепе-теңдігін сақтаймыз.</p></div></article>
+          <article class="meaning-card reveal"><span class="card-number">04</span><div><h3>Сұлулық</h3><p>Түсі мен пішінінің алуан түрлілігі өнерге, дизайнға және қала мәдениетіне шабыт береді.</p></div></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section city" id="shymkent">
+      <div class="container">
+        <div class="section-header reveal"><div><div class="section-kicker">03 · Қала тынысы</div><h2>Шымкент — қызғалдақ мекені</h2></div><p class="section-intro">Шуақты шаһардың бейнесі қызғалдақпен біте қайнасып, әр көктем сайын жаңаша құлпырады.</p></div>
+        <div class="city-grid">
+          <div class="city-image reveal"><img src="https://images.unsplash.com/photo-1468327768560-75b778cbb551?auto=format&fit=crop&w=1400&q=85" alt="Көктемгі гүлдер арасындағы жол"><div class="city-badge">ШЫМКЕНТ<br>КӨКТЕМІ</div></div>
+          <div class="city-text reveal"><p>Қызғалдақ Шымкент қаласының ресми символдарының бірі ретінде қала болмысының ажырамас бөлшегіне айналды. Оның бейнесі сәулетте, саябақтарда және қоғамдық кеңістіктерде көрініс табады.</p><ul class="city-list"><li>Қызғалдақ пішініндегі ерекше субұрқақ — қаланың танымал нышаны.</li><li>Көктем сайын қызғалдақ фестивальдері өтіп, көшелер мен алаңдар гүлге бөленеді.</li><li>Қала тұрғындары мен қонақтары табиғаттың оянуын бірге қарсы алады.</li></ul></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section district-map-section" id="audandar">
+      <div class="container">
+        <div class="section-header reveal"><div><div class="section-kicker">04 · Қала аудандары</div><h2>Әр ауданның өз қызғалдағы</h2></div><p class="section-intro">Шымкенттің бес ауданын картадан таңдаңыз. Әрқайсысына тән қызғалдақ пен оның символдық мағынасы туралы оқыңыз.</p></div>
+        <div class="district-map-layout">
+          <div class="district-map-card reveal">
+            <div class="district-map-heading"><span>Шымкент қаласының аудандары</span><span class="district-map-count">5 аудан</span></div>
+            <svg class="district-map-svg" viewBox="0 0 800 800" role="group" aria-label="Шымкент қаласының интерактивті аудандар картасы">
+              <g aria-label="Аудандарды таңдау">
+                <path class="district-shape is-active" data-district="alfarabi" data-base-fill="#dcfce7" tabindex="0" role="button" aria-label="Әл-Фараби ауданы" aria-pressed="true" fill="#ef4444" d="M360 300 L400 190 L480 300 L570 340 L540 450 L440 480 L350 440 L260 460 L260 340 Z"/>
+                <path class="district-shape" data-district="karatau" data-base-fill="#fef3c7" tabindex="0" role="button" aria-label="Қаратау ауданы" aria-pressed="false" fill="#fef3c7" d="M330 105 L480 130 L610 100 L710 195 L688 325 L570 340 L480 300 L400 190 Z"/>
+                <path class="district-shape" data-district="abai" data-base-fill="#ffedd5" tabindex="0" role="button" aria-label="Абай ауданы" aria-pressed="false" fill="#ffedd5" d="M205 155 L330 105 L400 190 L360 300 L260 340 L120 350 L85 240 Z"/>
+                <path class="district-shape" data-district="enbekshi" data-base-fill="#dbeafe" tabindex="0" role="button" aria-label="Еңбекші ауданы" aria-pressed="false" fill="#dbeafe" d="M570 340 L688 325 L735 430 L680 570 L580 665 L420 700 L290 665 L390 550 L350 440 L440 480 L540 450 Z"/>
+                <path class="district-shape" data-district="turan" data-base-fill="#dcfce7" tabindex="0" role="button" aria-label="Тұран ауданы" aria-pressed="false" fill="#dcfce7" d="M120 350 L260 340 L260 460 L350 440 L390 550 L290 665 L160 620 L95 500 Z"/>
+              </g>
+              <g class="district-label is-active" data-label="alfarabi" transform="translate(410 393)" aria-hidden="true"><rect x="-64" y="-25" width="128" height="50" rx="14"/><text class="district-label-name" y="-2">Әл-Фараби</text><text class="district-label-suffix" y="14">ауданы</text></g>
+              <g class="district-label" data-label="karatau" transform="translate(550 231)" aria-hidden="true"><rect x="-64" y="-25" width="128" height="50" rx="14"/><text class="district-label-name" y="-2">Қаратау</text><text class="district-label-suffix" y="14">ауданы</text></g>
+              <g class="district-label" data-label="abai" transform="translate(234 242)" aria-hidden="true"><rect x="-64" y="-25" width="128" height="50" rx="14"/><text class="district-label-name" y="-2">Абай</text><text class="district-label-suffix" y="14">ауданы</text></g>
+              <g class="district-label" data-label="enbekshi" transform="translate(554 532)" aria-hidden="true"><rect x="-64" y="-25" width="128" height="50" rx="14"/><text class="district-label-name" y="-2">Еңбекші</text><text class="district-label-suffix" y="14">ауданы</text></g>
+              <g class="district-label" data-label="turan" transform="translate(214 517)" aria-hidden="true"><rect x="-64" y="-25" width="128" height="50" rx="14"/><text class="district-label-name" y="-2">Тұран</text><text class="district-label-suffix" y="14">ауданы</text></g>
+            </svg>
+            <p class="district-map-hint">Ауданды картадан немесе төмендегі батырмадан таңдаңыз</p>
+            <div class="district-buttons" aria-label="Ауданды таңдау">
+              <button class="district-button is-active" type="button" data-district="alfarabi" aria-pressed="true"><span class="district-button-number">01</span>Әл-Фараби ауданы</button>
+              <button class="district-button" type="button" data-district="karatau" aria-pressed="false"><span class="district-button-number">02</span>Қаратау ауданы</button>
+              <button class="district-button" type="button" data-district="abai" aria-pressed="false"><span class="district-button-number">03</span>Абай ауданы</button>
+              <button class="district-button" type="button" data-district="enbekshi" aria-pressed="false"><span class="district-button-number">04</span>Еңбекші ауданы</button>
+              <button class="district-button" type="button" data-district="turan" aria-pressed="false"><span class="district-button-number">05</span>Тұран ауданы</button>
+            </div>
+          </div>
+          <aside class="district-info-card reveal" aria-live="polite" aria-atomic="true">
+            <div class="district-info-content">
+              <div class="district-info-tag"><span class="district-info-dot"></span>Таңдалған аудан</div>
+              <p class="district-info-kicker">Шымкент қаласы</p>
+              <h3 id="district-name">Әл-Фараби ауданы</h3>
+              <div class="district-info-divider"></div>
+              <div class="district-tulip-card">
+                <p class="district-tulip-label">Ауданның қызғалдағы</p>
+                <h4 id="district-tulip">Грейг қызғалдағы</h4>
+                <p class="district-tulip-scientific" id="district-scientific">Tulipa greigii</p>
+                <p class="district-tulip-description" id="district-description">Қаланың орталығы мен мәдени жүрегіне тән отты қызыл қызғалдақ.</p>
+              </div>
+              <div class="district-symbol-note"><span aria-hidden="true">✿</span><span>Әр гүл — туған өлкенің табиғаты мен мінезін баяндайтын тірі символ.</span></div>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <section class="section gallery" id="gallery">
+      <div class="container">
+        <div class="section-header reveal"><div><div class="section-kicker">05 · Көрініс</div><h2>Көктемнің алты реңкі</h2></div><p class="section-intro">Даланың әр бұрышынан байқалатын нәзік ырғақ: қызыл, сары, қызғылт және ақ түстердің табиғи үйлесімі.</p></div>
+        <div class="gallery-grid">
+          <figure class="gallery-item reveal"><img src="https://upload.wikimedia.org/wikipedia/commons/a/ae/Tulip_Field_Tulips_Red_Holland_Nature_Flowers.jpg" alt="Түрлі түсті тюльпан алқабы"><figcaption class="gallery-caption">Түстер алқабы</figcaption></figure>
+          <figure class="gallery-item reveal"><img src="https://upload.wikimedia.org/wikipedia/commons/4/46/Tulip_field_%282%29.jpg" alt="Қызыл тюльпан алқабы"><figcaption class="gallery-caption">Қызыл жолақ</figcaption></figure>
+          <figure class="gallery-item reveal"><img src="https://upload.wikimedia.org/wikipedia/commons/3/36/Tulip_field_29-03-24.jpg" alt="Көктемгі тюльпан алқабы"><figcaption class="gallery-caption">Көктем тынысы</figcaption></figure>
+          <figure class="gallery-item reveal"><img src="https://upload.wikimedia.org/wikipedia/commons/d/db/Tulip_field_in_Holland.jpg" alt="Таулар алдындағы тюльпан алқабы"><figcaption class="gallery-caption">Дала мен тау</figcaption></figure>
+          <figure class="gallery-item reveal"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/01_Small_red_tulip.jpg/1280px-01_Small_red_tulip.jpg" alt="Қызыл тюльпан гүлі"><figcaption class="gallery-caption">Қызыл леп</figcaption></figure>
+          <figure class="gallery-item reveal"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Red_and_white_tulip_at_Myddelton_House%2C_Enfield%2C_London.jpg/1280px-Red_and_white_tulip_at_Myddelton_House%2C_Enfield%2C_London.jpg" alt="Қызыл-ақ тюльпан гүлі"><figcaption class="gallery-caption">Қызыл-ақ реңк</figcaption></figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="closing" id="qorytyndy">
+      <div class="container reveal"><div class="section-kicker">06 · Аманат</div><h2>Қызғалдақты қорғайық — даланы сақтайық</h2><p>Қызыл кітапқа енген сирек түрлерді жұлмай, табиғи мекенін бүлдірмей, келер ұрпаққа көктемнің осы ғажайып бояуын аман жеткізейік.</p><a class="button" href="#top">Басты бетке <span>↑</span></a></div>
+    </section>
+  </main>
+
+  <script>
+    const menuButton = document.querySelector('.menu-toggle');
+    const navLinks = document.querySelector('.nav-links');
+    menuButton.addEventListener('click', () => {
+      const isOpen = navLinks.classList.toggle('open');
+      menuButton.setAttribute('aria-expanded', isOpen);
+    });
+    navLinks.addEventListener('click', (event) => {
+      if (event.target.matches('a')) {
+        navLinks.classList.remove('open');
+        menuButton.setAttribute('aria-expanded', 'false');
+      }
+    });
+    const districtDetails = {
+      alfarabi: {
+        name: 'Әл-Фараби ауданы',
+        tulip: 'Грейг қызғалдағы',
+        scientific: 'Tulipa greigii',
+        description: 'Қаланың орталығы мен мәдени жүрегіне тән отты қызыл қызғалдақ.',
+        color: '#ef4444'
+      },
+      karatau: {
+        name: 'Қаратау ауданы',
+        tulip: 'Қаратау қызғалдағы',
+        scientific: 'Tulipa karatavica',
+        description: 'Қаратау жоталарының эндемигі, таулы табиғат пен таза ауа символы.',
+        color: '#7e22ce'
+      },
+      abai: {
+        name: 'Абай ауданы',
+        tulip: 'Шренк қызғалдағы',
+        scientific: 'Tulipa schrenkii',
+        description: 'Түстері алуан түрлі, өнер мен поэзияға шабыт беретін әсем гүл.',
+        color: '#db2777'
+      },
+      enbekshi: {
+        name: 'Еңбекші ауданы',
+        tulip: 'Альберт қызғалдағы',
+        scientific: 'Tulipa alberti',
+        description: 'Тасты далада өсуге бейім, еңбекші халықтың төзімділігін бейнелейтін қызғалдақ.',
+        color: '#ea580c'
+      },
+      turan: {
+        name: 'Тұран ауданы',
+        tulip: 'Түркістан қызғалдағы',
+        scientific: 'Tulipa turkestanica',
+        description: 'Жаңа ауданның қарқынды өсіп-өркендеуін бейнелейтін көпгүлді қызғалдақ.',
+        color: '#2563eb'
+      }
+    };
+    const districtMap = document.querySelector('.district-map-section');
+    if (districtMap) {
+      const chooseDistrict = (id) => {
+        const district = districtDetails[id];
+        if (!district) return;
+        districtMap.querySelectorAll('[data-district]').forEach((element) => {
+          const isActive = element.dataset.district === id;
+          element.classList.toggle('is-active', isActive);
+          element.setAttribute('aria-pressed', String(isActive));
+          if (element.matches('.district-shape')) {
+            element.setAttribute('fill', isActive ? district.color : element.dataset.baseFill || '');
+          }
+        });
+        districtMap.querySelectorAll('[data-label]').forEach((label) => {
+          label.classList.toggle('is-active', label.dataset.label === id);
+        });
+        districtMap.querySelectorAll('.district-shape').forEach((shape) => {
+          if (!shape.dataset.baseFill) shape.dataset.baseFill = shape.getAttribute('fill');
+          if (shape.dataset.district !== id) shape.setAttribute('fill', shape.dataset.baseFill);
+        });
+        districtMap.querySelector('#district-name').textContent = district.name;
+        districtMap.querySelector('#district-tulip').textContent = district.tulip;
+        districtMap.querySelector('#district-scientific').textContent = district.scientific;
+        districtMap.querySelector('#district-description').textContent = district.description;
+        districtMap.querySelector('.district-info-card').style.setProperty('--district-accent', district.color);
+      };
+      districtMap.querySelectorAll('[data-district]').forEach((element) => {
+        element.addEventListener('click', () => chooseDistrict(element.dataset.district));
+        if (element.matches('.district-shape')) {
+          element.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter' || event.key === ' ') {
+              event.preventDefault();
+              chooseDistrict(element.dataset.district);
+            }
+          });
+        }
+      });
+      districtMap.querySelectorAll('.district-shape').forEach((shape) => {
+        shape.dataset.baseFill = shape.dataset.baseFill || shape.getAttribute('fill');
+      });
+      chooseDistrict('alfarabi');
+    }
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach((element) => observer.observe(element));
+  </script>
+</body>
+</html>
