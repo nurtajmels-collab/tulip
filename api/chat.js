@@ -31,7 +31,7 @@ export default async function handler(req, res) {
         'X-Title': 'Qyzğaldaq'
       },
       body: JSON.stringify({
-        model: process.env.OPENROUTER_MODEL || 'openrouter/free',
+        model: 'google/gemma-4-26b-a4b-it:free',
         messages: [
           {
             role: 'system',
@@ -56,11 +56,11 @@ export default async function handler(req, res) {
       });
     }
     if (!response.ok) {
-      console.error('OpenRouter request failed:', response.status, data.error?.code || data.error?.message);
+      console.error('OpenRouter request failed:', response.status, data?.error?.code || data?.error?.message);
       const status = response.status === 429 ? 429 : response.status >= 500 ? 502 : response.status;
       return res.status(status).json({
         error: {
-          code: data.error?.code || response.status,
+          code: data?.error?.code || response.status,
           message: response.status === 429
             ? 'The free model is temporarily rate limited. Please try again later.'
             : 'The AI provider could not complete the request.'
@@ -68,9 +68,9 @@ export default async function handler(req, res) {
       });
     }
 
-    const answer = data.choices?.[0]?.message?.content;
+    const answer = data?.choices?.[0]?.message?.content;
     if (typeof answer !== 'string' || !answer.trim()) {
-      console.error('OpenRouter returned no text completion:', data.error?.code || 'empty response');
+      console.error('OpenRouter returned no text completion:', data?.error?.code || 'empty response');
       return res.status(502).json({
         error: { code: 'EMPTY_COMPLETION', message: 'The AI provider returned an empty response.' }
       });
@@ -78,7 +78,9 @@ export default async function handler(req, res) {
 
     return res.status(200).json({ answer: answer.trim() });
   } catch (error) {
-    const providerCode = error?.cause?.code || error?.code || error?.name || 'UNKNOWN';
+    const providerCode = error?.cause?.code
+      || (error instanceof TypeError ? 'FETCH_FAILED' : error?.code || error?.name)
+      || 'UNKNOWN';
     console.error('OpenRouter request could not be completed:', providerCode, error?.message);
     return res.status(502).json({
       error: {
