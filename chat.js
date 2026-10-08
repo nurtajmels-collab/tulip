@@ -1,8 +1,4 @@
-// Obfuscated to bypass static secret scanners
-const p1 = 'AQ.Ab8RN6LRh02E';
-const p2 = 'D4TH74RCJIUFUB9';
-const p3 = 'YAtPDJ_XmqmabKJ2J6QdMgw';
-const API_KEY = p1 + p2 + p3;
+// API key moved to Vercel environment variables (backend)
 
 // Inject CSS
 const style = document.createElement('style');
@@ -251,21 +247,12 @@ async function sendMessage() {
   addTypingIndicator();
 
   try {
-    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent?key=${API_KEY}`, {
+    const response = await fetch('/api/chat', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({
-        system_instruction: {
-          parts: [{
-            text: "Сен Қызғалдақ (тюльпан) туралы сарапшысың. Қазақ тілінде қысқа, түсінікті әрі сыпайы жауап бер. Тек қана қызғалдақтар, олардың тарихы, түрлері және Шымкент қаласымен байланысы туралы сұрақтарға жауап бер. Басқа тақырыптағы сұрақтарға кешірім сұрап, тек қызғалдақ туралы айта алатыныңды ескерт."
-          }]
-        },
-        contents: [{
-          parts: [{ text: text }]
-        }]
-      })
+      body: JSON.stringify({ message: text })
     });
     
     const data = await response.json();
