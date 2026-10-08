@@ -10,6 +10,7 @@ type District = {
   labelX: number;
   labelY: number;
   number: string;
+  image: string; // relative URL to district flower image
 };
 
 const districts: District[] = [
@@ -17,61 +18,61 @@ const districts: District[] = [
     name: "Әл-Фараби ауданы",
     tulip: "Грейг қызғалдағы",
     scientificName: "Tulipa greigii",
-    description:
-      "Қаланың орталығы мен мәдени жүрегіне тән отты қызыл қызғалдақ.",
+    description: "Қаланың орталығы мен мәдени жүрегіне тән отты қызыл қызғалдақ.",
     baseFill: "#dcfce7",
     activeFill: "#ef4444",
     labelX: 410,
     labelY: 393,
     number: "01",
+    image: "/images/greig.jpg",
   },
   {
     name: "Қаратау ауданы",
     tulip: "Қаратау қызғалдағы",
     scientificName: "Tulipa karatavica",
-    description:
-      "Қаратау жоталарының эндемигі, таулы табиғат пен таза ауа символы.",
+    description: "Қаратау жоталарының эндемигі, таулы табиғат пен таза ауа символы.",
     baseFill: "#fef3c7",
     activeFill: "#7e22ce",
     labelX: 550,
     labelY: 231,
     number: "02",
+    image: "/images/karatavica.jpg",
   },
   {
     name: "Абай ауданы",
     tulip: "Шренк қызғалдағы",
     scientificName: "Tulipa schrenkii",
-    description:
-      "Түстері алуан түрлі, өнер мен поэзияға шабыт беретін әсем гүл.",
+    description: "Түстері алуан түрлі, өнер мен поэзияға шабыт беретін әсем гүл.",
     baseFill: "#fce7f3",
     activeFill: "#db2777",
     labelX: 234,
     labelY: 242,
     number: "03",
+    image: "/images/schrenkii.jpg",
   },
   {
     name: "Еңбекші ауданы",
     tulip: "Альберт қызғалдағы",
     scientificName: "Tulipa alberti",
-    description:
-      "Тасты далада өсуге бейім, еңбекші халықтың төзімділігін бейнелейтін қызғалдақ.",
+    description: "Тасты далада өсуге бейім, еңбекші халықтың төзімділігін бейнелейтін қызғалдақ.",
     baseFill: "#ffedd5",
     activeFill: "#ea580c",
     labelX: 554,
     labelY: 532,
     number: "04",
+    image: "/images/alberti.jpg",
   },
   {
     name: "Тұран ауданы",
     tulip: "Түркістан қызғалдағы",
     scientificName: "Tulipa turkestanica",
-    description:
-      "Жаңа ауданның қарқынды өсіп-өркендеуін бейнелейтін көпгүлді қызғалдақ.",
+    description: "Жаңа ауданның қарқынды өсіп-өркендеуін бейнелейтін көпгүлді қызғалдақ.",
     baseFill: "#dbeafe",
     activeFill: "#2563eb",
     labelX: 214,
     labelY: 517,
     number: "05",
+    image: "/images/turkestanica.jpg",
   },
 ];
 
@@ -280,9 +281,9 @@ export default function ShymkentTulipMap() {
               <p className="mt-1 font-serif text-lg italic text-emerald-700">
                 {selected.scientificName}
               </p>
-              <p className="mt-4 text-sm leading-7 text-stone-600">
-                {selected.description}
-              </p>
+              <div className="mt-4 flex justify-center">
+                <img src={selected.image} alt={selected.tulip} className="max-w-full h-auto rounded-lg shadow" />
+              </div>
             </div>
 
             <div className="mt-6 flex items-start gap-3 rounded-2xl border border-emerald-100 bg-emerald-50/70 p-4">

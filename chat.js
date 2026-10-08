@@ -247,13 +247,17 @@ async function sendMessage() {
   addTypingIndicator();
 
   try {
-    const response = await fetch('/api/chat', {
+    const response = await fetch('https://tulip-three-sigma.vercel.app/api/chat', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({ message: text })
     });
+    if (!response.ok) {
+      const err = await response.text();
+      throw new Error(`Server error ${response.status}: ${err}`);
+    }
     
     const data = await response.json();
     removeTypingIndicator();
