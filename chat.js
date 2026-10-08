@@ -231,6 +231,29 @@ function removeTypingIndicator() {
   if (indicator) indicator.remove();
 }
 
+function waitBeforeRateLimitRetry(seconds) {
+  return new Promise((resolve) => {
+    let remaining = seconds;
+    const updateStatus = () => {
+      const indicator = document.getElementById('typing-indicator');
+      if (indicator) {
+        indicator.textContent = `Сұрау лимиті босауын күтіп тұрмыз. Қайталап көреміз: ${remaining} сек.`;
+      }
+    };
+
+    updateStatus();
+    const timer = setInterval(() => {
+      remaining -= 1;
+      if (remaining <= 0) {
+        clearInterval(timer);
+        resolve();
+      } else {
+        updateStatus();
+      }
+    }, 1000);
+  });
+}
+
 async function sendMessage() {
   const text = inputField.value.trim();
   if (!text) return;
@@ -243,20 +266,31 @@ async function sendMessage() {
   addTypingIndicator();
 
   try {
-    const response = await fetch('https://tulip-three-sigma.vercel.app/api/chat', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ message: text })
-    });
+    const requestChat = async () => {
+      const response = await fetch('https://tulip-three-sigma.vercel.app/api/chat', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ message: text })
+      });
 
-    let data;
-    try {
-      data = await response.json();
-    } catch (error) {
-      console.error('Chat API returned invalid JSON:', error);
-      throw new Error('Чат серверінен жарамсыз жауап келді.');
+      let data;
+      try {
+        data = await response.json();
+      } catch (error) {
+        console.error('Chat API returned invalid JSON:', error);
+        throw new Error('Чат серверінен жарамсыз жауап келді.');
+      }
+
+      return { response, data };
+    };
+
+    let { response, data } = await requestChat();
+    if (response.status === 429) {
+      console.warn('Chat API rate limited the request; retrying once in 9 seconds.');
+      await waitBeforeRateLimitRetry(9);
+      ({ response, data } = await requestChat());
     }
 
     removeTypingIndicator();
@@ -267,7 +301,7 @@ async function sendMessage() {
         : response.status;
       console.error('Chat API request failed:', apiStatus, data);
       if (apiStatus === 429) {
-        throw new Error('Тегін AI моделінің сұрау лимиті уақытша таусылды. Біраздан кейін қайталап көріңіз.');
+        throw new Error('Тегін AI моделінің сұрау лимиті әлі босамады. Біраздан кейін қайталап көріңіз.');
       }
       if (apiStatus === 500) {
         throw new Error('Чат серверінде OPENROUTER_API_KEY кілті бапталмаған.');
