@@ -80,6 +80,7 @@ style.textContent = `
     border-radius: 16px;
     font-size: 14px;
     line-height: 1.5;
+    white-space: pre-wrap;
   }
   .chat-message.user {
     background: #dce9d5;
@@ -212,9 +213,25 @@ closeButton.addEventListener('click', () => {
 function addMessage(text, sender) {
   const msgDiv = document.createElement('div');
   msgDiv.className = `chat-message ${sender}`;
-  msgDiv.textContent = text;
+  msgDiv.textContent = sender === 'ai' ? formatPlainText(text) : text;
   messagesContainer.appendChild(msgDiv);
   messagesContainer.scrollTop = messagesContainer.scrollHeight;
+}
+
+function formatPlainText(text) {
+  return text
+    .replace(/^[ \t]{0,3}#{1,6}[ \t]+/gm, '')
+    .replace(/^[ \t]*[-*+][ \t]+/gm, '• ')
+    .replace(/^[ \t]*\d+[.)][ \t]+/gm, '• ')
+    .replace(/^[ \t]*>[ \t]?/gm, '')
+    .replace(/^[ \t]*([-*_])(?:[ \t]*\1){2,}[ \t]*$/gm, '')
+    .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
+    .replace(/\*\*(.+?)\*\*|__(.+?)__/g, '$1$2')
+    .replace(/\*(.+?)\*|_(.+?)_/g, '$1$2')
+    .replace(/~~(.+?)~~/g, '$1')
+    .replace(/`([^`]+)`/g, '$1')
+    .replace(/\n{3,}/g, '\n\n')
+    .trim();
 }
 
 function addTypingIndicator() {
