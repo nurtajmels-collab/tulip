@@ -43,7 +43,18 @@ export default async function handler(req, res) {
       })
     });
 
-    const data = await response.json();
+    let data;
+    try {
+      data = await response.json();
+    } catch (error) {
+      console.error('OpenRouter returned invalid JSON:', response.status, error.name);
+      return res.status(502).json({
+        error: {
+          code: 'INVALID_UPSTREAM_RESPONSE',
+          message: 'The AI provider returned an invalid response.'
+        }
+      });
+    }
     if (!response.ok) {
       console.error('OpenRouter request failed:', response.status, data.error?.code || data.error?.message);
       const status = response.status === 429 ? 429 : response.status >= 500 ? 502 : response.status;
@@ -67,9 +78,14 @@ export default async function handler(req, res) {
 
     return res.status(200).json({ answer: answer.trim() });
   } catch (error) {
-    console.error('OpenRouter request could not be completed:', error);
+    const providerCode = error?.cause?.code || error?.code || error?.name || 'UNKNOWN';
+    console.error('OpenRouter request could not be completed:', providerCode, error?.message);
     return res.status(502).json({
-      error: { code: 'UPSTREAM_UNAVAILABLE', message: 'The AI provider is temporarily unavailable.' }
+      error: {
+        code: 'UPSTREAM_UNAVAILABLE',
+        providerCode,
+        message: 'The AI provider is temporarily unavailable.'
+      }
     });
   }
 }

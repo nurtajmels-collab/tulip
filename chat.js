@@ -273,6 +273,12 @@ async function sendMessage() {
         throw new Error('Чат серверінде OPENROUTER_API_KEY кілті бапталмаған.');
       }
       if (apiStatus === 502 || apiStatus === 503) {
+        if (data?.error?.code === 'UPSTREAM_UNAVAILABLE') {
+          throw new Error(`Vercel сервері OpenRouter-ге қосыла алмады (${data.error.providerCode || 'unknown'}). Vercel Function Logs журналын тексеріңіз.`);
+        }
+        if (data?.error?.code === 'INVALID_UPSTREAM_RESPONSE') {
+          throw new Error('OpenRouter сервері жарамсыз жауап қайтарды. Кейінірек қайталап көріңіз.');
+        }
         throw new Error('AI сервисі уақытша жауап бермей тұр. Кейінірек қайталап көріңіз.');
       }
       throw new Error(data?.error?.message || 'Сұрауды орындау мүмкін болмады. Қайталап көріңіз.');
