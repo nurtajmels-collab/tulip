@@ -3,10 +3,14 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const API_KEY = process.env.GEMINI_API_KEY;
-  
-  if (!API_KEY) {
-    return res.status(500).json({ error: 'API key is missing on the server' });
+  const apiKey = process.env.OPENROUTER_API_KEY;
+  if (!apiKey) {
+    return res.status(500).json({
+      error: {
+        code: 'MISSING_OPENROUTER_API_KEY',
+        message: 'OPENROUTER_API_KEY is not configured on the server'
+      }
+    });
   }
 
   const message = req.body?.message;
@@ -18,32 +22,54 @@ export default async function handler(req, res) {
   }
 
   try {
-    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent?key=${API_KEY}`, {
+    const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+        'Content-Type': 'application/json',
+        'HTTP-Referer': 'https://tulip-three-sigma.vercel.app',
+        'X-Title': 'Qyzğaldaq'
+      },
       body: JSON.stringify({
-        system_instruction: {
-          parts: [{
-            text: "Сен Қызғалдақ (тюльпан) туралы сарапшысың. Қазақ тілінде қысқа, түсінікті әрі сыпайы жауап бер. Тек қана қызғалдақтар, олардың тарихы, түрлері және Шымкент қаласымен байланысы туралы сұрақтарға жауап бер. Басқа тақырыптағы сұрақтарға кешірім сұрап, тек қызғалдақ туралы айта алатыныңды ескерт."
-          }]
-        },
-        contents: [{
-          parts: [{ text: message }]
-        }]
+        model: process.env.OPENROUTER_MODEL || 'openrouter/free',
+        messages: [
+          {
+            role: 'system',
+            content: 'Сен Қызғалдақ (тюльпан) туралы сарапшысың. Қазақ тілінде қысқа, түсінікті әрі сыпайы жауап бер. Тек қана қызғалдақтар, олардың тарихы, түрлері және Шымкент қаласымен байланысы туралы сұрақтарға жауап бер. Басқа тақырыптағы сұрақтарға кешірім сұрап, тек қызғалдақ туралы айта алатыныңды ескерт.'
+          },
+          { role: 'user', content: message.trim() }
+        ],
+        max_tokens: 600
       })
     });
 
     const data = await response.json();
     if (!response.ok) {
-      console.error('Gemini API request failed:', response.status, data.error?.status || data.error?.message);
-      return res.status(response.status).json(data);
+      console.error('OpenRouter request failed:', response.status, data.error?.code || data.error?.message);
+      const status = response.status === 429 ? 429 : response.status >= 500 ? 502 : response.status;
+      return res.status(status).json({
+        error: {
+          code: data.error?.code || response.status,
+          message: response.status === 429
+            ? 'The free model is temporarily rate limited. Please try again later.'
+            : 'The AI provider could not complete the request.'
+        }
+      });
     }
 
-    return res.status(200).json(data);
+    const answer = data.choices?.[0]?.message?.content;
+    if (typeof answer !== 'string' || !answer.trim()) {
+      console.error('OpenRouter returned no text completion:', data.error?.code || 'empty response');
+      return res.status(502).json({
+        error: { code: 'EMPTY_COMPLETION', message: 'The AI provider returned an empty response.' }
+      });
+    }
+
+    return res.status(200).json({ answer: answer.trim() });
   } catch (error) {
-    console.error('Gemini API request could not be completed:', error);
+    console.error('OpenRouter request could not be completed:', error);
     return res.status(502).json({
-      error: { code: 'UPSTREAM_UNAVAILABLE', message: 'Gemini API is temporarily unavailable' }
+      error: { code: 'UPSTREAM_UNAVAILABLE', message: 'The AI provider is temporarily unavailable.' }
     });
   }
 }

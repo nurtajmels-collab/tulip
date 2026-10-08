@@ -266,24 +266,21 @@ async function sendMessage() {
         ? Number(data.error.code)
         : response.status;
       console.error('Chat API request failed:', apiStatus, data);
-      if (apiStatus === 429 || data?.error?.status === 'RESOURCE_EXHAUSTED') {
-        throw new Error('Gemini API сұрау квотасы таусылды. Квота жаңарған соң немесе Google AI Studio-да лимитті көтергеннен кейін қайталап көріңіз.');
+      if (apiStatus === 429) {
+        throw new Error('Тегін AI моделінің сұрау лимиті уақытша таусылды. Біраздан кейін қайталап көріңіз.');
       }
       if (apiStatus === 500) {
-        throw new Error('Чат серверінің баптауында мәселе бар. Әкімшіге хабарласыңыз.');
+        throw new Error('Чат серверінде OPENROUTER_API_KEY кілті бапталмаған.');
       }
       if (apiStatus === 502 || apiStatus === 503) {
-        throw new Error('Gemini сервисі уақытша жауап бермей тұр. Кейінірек қайталап көріңіз.');
+        throw new Error('AI сервисі уақытша жауап бермей тұр. Кейінірек қайталап көріңіз.');
       }
       throw new Error(data?.error?.message || 'Сұрауды орындау мүмкін болмады. Қайталап көріңіз.');
     }
 
-    const answer = data?.candidates?.[0]?.content?.parts
-      ?.map((part) => part.text)
-      .filter(Boolean)
-      .join('\n');
+    const answer = data?.answer;
     if (!answer) {
-      console.error('Chat API returned no text candidate:', data);
+      console.error('Chat API returned no answer:', data);
       throw new Error('Жауап құрастыру мүмкін болмады. Сұрағыңызды басқаша қойып көріңіз.');
     }
     addMessage(answer, 'ai');
