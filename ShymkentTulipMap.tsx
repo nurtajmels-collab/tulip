@@ -24,7 +24,7 @@ const districts: District[] = [
     labelX: 410,
     labelY: 393,
     number: "01",
-    image: "/images/greig.jpg",
+    image: "https://upload.wikimedia.org/wikipedia/commons/d/d0/Tulipa_greigii_2.jpg",
   },
   {
     name: "Қаратау ауданы",
@@ -36,7 +36,7 @@ const districts: District[] = [
     labelX: 550,
     labelY: 231,
     number: "02",
-    image: "/images/karatavica.jpg",
+    image: "https://upload.wikimedia.org/wikipedia/commons/7/7d/Tulipa_greigii_11.jpg",
   },
   {
     name: "Абай ауданы",
@@ -48,7 +48,7 @@ const districts: District[] = [
     labelX: 234,
     labelY: 242,
     number: "03",
-    image: "/images/schrenkii.jpg",
+    image: "https://upload.wikimedia.org/wikipedia/commons/6/6f/Tulipa_suaveolens.jpg",
   },
   {
     name: "Еңбекші ауданы",
@@ -60,7 +60,7 @@ const districts: District[] = [
     labelX: 554,
     labelY: 532,
     number: "04",
-    image: "/images/alberti.jpg",
+    image: "https://upload.wikimedia.org/wikipedia/commons/a/a2/Tulipa_alberti_Gartenflora_26_t_912_%281877%29.jpg",
   },
   {
     name: "Тұран ауданы",
@@ -72,7 +72,7 @@ const districts: District[] = [
     labelX: 214,
     labelY: 517,
     number: "05",
-    image: "/images/turkestanica.jpg",
+    image: "https://upload.wikimedia.org/wikipedia/commons/8/84/Tulipa_turkestanica.jpg",
   },
 ];
 
@@ -281,8 +281,15 @@ export default function ShymkentTulipMap() {
               <p className="mt-1 font-serif text-lg italic text-emerald-700">
                 {selected.scientificName}
               </p>
+              <p className="mt-4 text-sm leading-7 text-stone-600">
+                {selected.description}
+              </p>
               <div className="mt-4 flex justify-center">
-                <img src={selected.image} alt={selected.tulip} className="max-w-full h-auto rounded-lg shadow" />
+                <img
+                  src={selected.image}
+                  alt={selected.tulip}
+                  className="max-h-56 max-w-full rounded-lg object-cover shadow"
+                />
               </div>
             </div>
 

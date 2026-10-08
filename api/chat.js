@@ -9,13 +9,15 @@ export default async function handler(req, res) {
     return res.status(500).json({ error: 'API key is missing on the server' });
   }
 
-  try {
-    const { message } = req.body;
-    
-    if (!message) {
-      return res.status(400).json({ error: 'Message is required' });
-    }
+  const message = req.body?.message;
+  if (typeof message !== 'string' || !message.trim()) {
+    return res.status(400).json({ error: { message: 'Message is required' } });
+  }
+  if (message.length > 2000) {
+    return res.status(413).json({ error: { message: 'Message is too long' } });
+  }
 
+  try {
     const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent?key=${API_KEY}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -32,8 +34,16 @@ export default async function handler(req, res) {
     });
 
     const data = await response.json();
-    res.status(200).json(data);
+    if (!response.ok) {
+      console.error('Gemini API request failed:', response.status, data.error?.status || data.error?.message);
+      return res.status(response.status).json(data);
+    }
+
+    return res.status(200).json(data);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    console.error('Gemini API request could not be completed:', error);
+    return res.status(502).json({
+      error: { code: 'UPSTREAM_UNAVAILABLE', message: 'Gemini API is temporarily unavailable' }
+    });
   }
 }

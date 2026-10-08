@@ -360,7 +360,7 @@
         scientific: 'Tulipa karatavica',
         description: 'Қаратау жоталарының эндемигі, таулы табиғат пен таза ауа символы.',
         color: '#7e22ce',
-        image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/Tulipa_greigii_hybrid.jpg/800px-Tulipa_greigii_hybrid.jpg'
+        image: 'https://upload.wikimedia.org/wikipedia/commons/7/7d/Tulipa_greigii_11.jpg'
       },
       abai: {
         name: 'Абай ауданы',
@@ -411,8 +411,10 @@
         districtMap.querySelector('#district-tulip').textContent = district.tulip;
         districtMap.querySelector('#district-scientific').textContent = district.scientific;
         districtMap.querySelector('#district-description').textContent = district.description;
-        districtMap.querySelector('#district-image').src = district.image;
-        districtMap.querySelector('#district-image').alt = district.tulip;
+        const districtImage = districtMap.querySelector('#district-image');
+        districtImage.hidden = false;
+        districtImage.src = district.image;
+        districtImage.alt = district.tulip;
         districtMap.querySelector('.district-info-card').style.setProperty('--district-accent', district.color);
       };
       districtMap.querySelectorAll('[data-district]').forEach((element) => {
@@ -428,6 +430,9 @@
       });
       districtMap.querySelectorAll('.district-shape').forEach((shape) => {
         shape.dataset.baseFill = shape.dataset.baseFill || shape.getAttribute('fill');
+      });
+      districtMap.querySelector('#district-image').addEventListener('error', (event) => {
+        event.currentTarget.hidden = true;
       });
       chooseDistrict('alfarabi');
     }

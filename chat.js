@@ -212,11 +212,7 @@ closeButton.addEventListener('click', () => {
 function addMessage(text, sender) {
   const msgDiv = document.createElement('div');
   msgDiv.className = `chat-message ${sender}`;
-  
-  // Basic markdown-like bold parsing for better formatting
-  let formattedText = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-  
-  msgDiv.innerHTML = formattedText;
+  msgDiv.textContent = text;
   messagesContainer.appendChild(msgDiv);
   messagesContainer.scrollTop = messagesContainer.scrollHeight;
 }
@@ -254,23 +250,48 @@ async function sendMessage() {
       },
       body: JSON.stringify({ message: text })
     });
-    if (!response.ok) {
-      const err = await response.text();
-      throw new Error(`Server error ${response.status}: ${err}`);
+
+    let data;
+    try {
+      data = await response.json();
+    } catch (error) {
+      console.error('Chat API returned invalid JSON:', error);
+      throw new Error('Чат серверінен жарамсыз жауап келді.');
     }
-    
-    const data = await response.json();
+
     removeTypingIndicator();
-    
-    if (data.candidates && data.candidates.length > 0 && data.candidates[0].content.parts[0].text) {
-      addMessage(data.candidates[0].content.parts[0].text, 'ai');
-    } else {
-      addMessage("Кешіріңіз, қате кетті. Қайтадан байқап көріңіз. (Бәлкім API кілті дұрыс емес шығар)", 'ai');
-      console.error(data);
+
+    if (!response.ok || data?.error) {
+      const apiStatus = response.status === 200 && data?.error?.code
+        ? Number(data.error.code)
+        : response.status;
+      console.error('Chat API request failed:', apiStatus, data);
+      if (apiStatus === 429 || data?.error?.status === 'RESOURCE_EXHAUSTED') {
+        throw new Error('Gemini API сұрау квотасы таусылды. Квота жаңарған соң немесе Google AI Studio-да лимитті көтергеннен кейін қайталап көріңіз.');
+      }
+      if (apiStatus === 500) {
+        throw new Error('Чат серверінің баптауында мәселе бар. Әкімшіге хабарласыңыз.');
+      }
+      if (apiStatus === 502 || apiStatus === 503) {
+        throw new Error('Gemini сервисі уақытша жауап бермей тұр. Кейінірек қайталап көріңіз.');
+      }
+      throw new Error(data?.error?.message || 'Сұрауды орындау мүмкін болмады. Қайталап көріңіз.');
     }
+
+    const answer = data?.candidates?.[0]?.content?.parts
+      ?.map((part) => part.text)
+      .filter(Boolean)
+      .join('\n');
+    if (!answer) {
+      console.error('Chat API returned no text candidate:', data);
+      throw new Error('Жауап құрастыру мүмкін болмады. Сұрағыңызды басқаша қойып көріңіз.');
+    }
+    addMessage(answer, 'ai');
   } catch (error) {
     removeTypingIndicator();
-    addMessage("Интернетке қосылу мүмкін болмады.", 'ai');
+    addMessage(error instanceof TypeError
+      ? 'Интернетке немесе чат серверіне қосылу мүмкін болмады.'
+      : error.message || 'Қате пайда болды. Қайталап көріңіз.', 'ai');
     console.error(error);
   } finally {
     sendButton.disabled = false;
